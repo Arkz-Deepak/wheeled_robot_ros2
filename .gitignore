@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+
+# ROS 2 
+build/
+install/
+log/
+
+# OS generated files
+.DS_Store
+.vscode/
+*.vscode/

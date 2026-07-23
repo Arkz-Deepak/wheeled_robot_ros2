@@ -1,0 +1,346 @@
+<?xml version="1.0"?>
+<robot name="four_wheel">
+
+    <!-- ============================================== -->
+    <!--                GLOBAL MATERIALS                -->
+    <!-- ============================================== -->
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+    <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+    </material>
+    <material name="blue">
+        <color rgba="0 0 1 1"/>
+    </material>
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>
+
+    <!-- ============================================== -->
+    <!--                ROBOT LINKS                     -->
+    <!-- ============================================== -->
+    
+    <!-- Dummy link for TF tree shadow -->
+    <link name="base_footprint">
+    </link>
+
+    <!-- Chassis -->
+    <link name="chassis">
+        <visual>
+            <geometry>
+                <box size="0.4 0.2 0.1" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="white" />
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.4 0.2 0.1" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </collision>
+        <inertial>
+            <mass value="2.0"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.028" ixy="0.0" ixz="0.0" iyy="0.008" iyz="0.0" izz="0.033"/>
+        </inertial>
+    </link>
+    <!-- Lidar -->
+    <link name="lidar">
+        <visual>
+            <geometry>
+                <cylinder radius="0.05" length="0.02"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="blue" />
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.05" length="0.02"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </collision>
+        <inertial>
+            <mass value="0.2"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.00013" ixy="0.0" ixz="0.0" iyy="0.00013" iyz="0.0" izz="0.00025"/>
+        </inertial>
+    </link>
+  
+    <link name="lidar_sensor_frame"/>
+    <!-- Wheels -->
+    <link name="front_right_wheel">
+        <visual>
+            <geometry><cylinder radius="0.05" length="0.02"/></geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="black" />
+        </visual>
+        <collision>
+            <geometry><cylinder radius="0.05" length="0.02"/></geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.00033" ixy="0.0" ixz="0.0" iyy="0.00033" iyz="0.0" izz="0.00062"/>
+        </inertial>
+    </link>
+    
+    <link name="front_left_wheel">
+        <visual>
+            <geometry><cylinder radius="0.05" length="0.02"/></geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="black" />
+        </visual>
+        <collision>
+            <geometry><cylinder radius="0.05" length="0.02"/></geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.00033" ixy="0.0" ixz="0.0" iyy="0.00033" iyz="0.0" izz="0.00062"/>
+        </inertial>
+    </link>
+    
+    <link name="rear_right_wheel">
+        <visual>
+            <geometry><cylinder radius="0.05" length="0.02"/></geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="black" />
+        </visual>
+        <collision>
+            <geometry><cylinder radius="0.05" length="0.02"/></geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.00033" ixy="0.0" ixz="0.0" iyy="0.00033" iyz="0.0" izz="0.00062"/>
+        </inertial>
+    </link>
+    
+    <link name="rear_left_wheel">
+        <visual>
+            <geometry><cylinder radius="0.05" length="0.02"/></geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="black" />
+        </visual>
+        <collision>
+            <geometry><cylinder radius="0.05" length="0.02"/></geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.00033" ixy="0.0" ixz="0.0" iyy="0.00033" iyz="0.0" izz="0.00062"/>
+        </inertial>
+    </link>
+
+    <!-- Camera Link -->
+    <link name="camera_link">
+        <visual>
+            <geometry>
+                <sphere radius="0.03"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="red" />
+        </visual>
+        <collision>
+            <geometry><sphere radius="0.03"/></geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </collision>
+    </link>
+
+    <!-- ============================================== -->
+    <!--                ROBOT JOINTS                    -->
+    <!-- ============================================== -->
+    
+    <joint name="base_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="chassis" />
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    </joint>
+    
+    <joint name="chassis_lidar_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="lidar" />
+        <origin xyz="0 0 0.06" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="0" upper="0" effort="0" velocity="0"/> <!-- Zero limits lock it in place -->
+    </joint>
+
+    <joint name="lidar_camera_joint" type="fixed">
+        <parent link="lidar"/>
+        <child link="camera_link" />
+        <origin xyz="0 0 0.025" rpy="0 0 0"/>
+    </joint>
+    
+
+    <joint name="front_left_chassis_joint" type="continuous">
+        <parent link="chassis"/>
+        <child link="front_left_wheel" />
+        <origin xyz="0.15 0.12 -0.04" rpy="-1.5708 0 0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <joint name="front_right_chassis_joint" type="continuous">
+        <parent link="chassis"/>
+        <child link="front_right_wheel" />
+        <origin xyz="0.15 -0.12 -0.04" rpy="-1.5708 0 0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <joint name="rear_left_chassis_joint" type="continuous">
+        <parent link="chassis"/>
+        <child link="rear_left_wheel" />
+        <origin xyz="-0.15 0.12 -0.04" rpy="-1.5708 0 0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <joint name="rear_right_chassis_joint" type="continuous">
+        <parent link="chassis" />
+        <child link="rear_right_wheel" />
+        <origin xyz="-0.15 -0.12 -0.04" rpy="-1.5708 0 0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <joint name="lidar_sensor_joint" type="fixed">
+        <parent link="lidar"/>
+        <child link="lidar_sensor_frame"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- ============================================== -->
+    <!--                GAZEBO PLUGINS                  -->
+    <!-- ============================================== -->
+<!-- ============================================== -->
+    <!--                GAZEBO PLUGINS                  -->
+    <!-- ============================================== -->
+
+    <!-- GAZEBO SPECIFIC COLORS -->
+    <gazebo reference="chassis"><material>Gazebo/White</material></gazebo>
+    <gazebo reference="lidar"><material>Gazebo/Blue</material></gazebo>
+    <gazebo reference="camera_link"><material>Gazebo/Red</material></gazebo>
+    <gazebo reference="front_left_wheel"><material>Gazebo/Black</material></gazebo>
+    <gazebo reference="front_right_wheel"><material>Gazebo/Black</material></gazebo>
+    <gazebo reference="rear_left_wheel"><material>Gazebo/Black</material></gazebo>
+    <gazebo reference="rear_right_wheel"><material>Gazebo/Black</material></gazebo>
+
+
+    <gazebo>
+        <!-- DIFF DRIVE PLUGIN -->
+        <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+            <left_joint>front_left_chassis_joint</left_joint>
+            <left_joint>rear_left_chassis_joint</left_joint>
+            <right_joint>front_right_chassis_joint</right_joint>
+            <right_joint>rear_right_chassis_joint</right_joint>
+            <wheel_separation>0.24</wheel_separation>
+            <wheel_radius>0.05</wheel_radius>
+            <odom_publish_frequency>50</odom_publish_frequency>
+            <topic>/cmd_vel</topic>
+            <odom_topic>/odom</odom_topic>
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_footprint</child_frame_id>
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>base_footprint</robot_base_frame>
+            <publish_odom_tf>true</publish_odom_tf>
+            <publish_odom>true</publish_odom>
+            <max_linear_acceleration>0.5</max_linear_acceleration>
+            <max_angular_acceleration>1.0</max_angular_acceleration>
+        </plugin>
+        
+        <!-- JOINT STATE PUBLISHER -->
+        <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+            <topic>/joint_states</topic>
+            <joint_name>front_left_chassis_joint</joint_name>
+            <joint_name>front_right_chassis_joint</joint_name>
+            <joint_name>rear_left_chassis_joint</joint_name>
+            <joint_name>rear_right_chassis_joint</joint_name>
+        </plugin>
+
+    </gazebo>
+
+    <!-- LiDAR SENSOR -->
+    <gazebo reference="lidar_sensor_frame">
+        <sensor name="lidar_sensor" type="gpu_lidar">
+            <pose>0 0 0 0 0 0</pose> <!-- ADD THIS LINE -->
+           
+            <always_on>true</always_on>
+            <update_rate>10.0</update_rate>
+            <visualize>true</visualize>
+            <topic>/scan</topic>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <resolution>1.0</resolution>
+                        <min_angle>-3.14159</min_angle>
+                        <max_angle>3.14159</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.15</min>
+                    <max>12.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+        </sensor>
+    </gazebo>
+
+    <!-- CAMERA SENSOR -->
+    <gazebo reference="camera_link">
+        <sensor name="camera_sensor" type="camera">
+            <pose>0 0 0 0 0 0</pose>
+            <always_on>true</always_on>
+            <visualize>true</visualize>
+            <update_rate>30.0</update_rate>
+            <camera>
+                <horizontal_fov>1.047</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.1</near>
+                    <far>100</far>
+                </clip>
+            </camera>
+            <topic>/camera/image_raw</topic>
+        </sensor>
+    </gazebo>
+    <gazebo reference="front_left_wheel">
+        <material>Gazebo/Black</material>
+        <mu1>0.2</mu1> 
+        <mu2>0.1</mu2> 
+        <fdir1>1 0 0</fdir1> 
+    </gazebo>
+
+    <gazebo reference="front_right_wheel">
+        <material>Gazebo/Black</material>
+        <mu1>0.2</mu1>
+        <mu2>0.1</mu2>
+        <fdir1>1 0 0</fdir1>
+    </gazebo>
+
+    <gazebo reference="rear_left_wheel">
+        <material>Gazebo/Black</material>
+        <mu1>0.2</mu1>
+        <mu2>0.1</mu2>
+        <fdir1>1 0 0</fdir1>
+    </gazebo>
+
+    <gazebo reference="rear_right_wheel">
+        <material>Gazebo/Black</material>
+        <mu1>0.2</mu1>
+        <mu2>0.1</mu2>
+        <fdir1>1 0 0</fdir1>
+    </gazebo>
+</robot>
