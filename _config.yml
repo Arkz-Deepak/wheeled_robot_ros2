@@ -1,0 +1,4 @@
+theme: jekyll-theme-cayman
+title: "Autonomous 4WD Mobile Robot in ROS 2 & Gazebo"
+description: "4WD skid-steer mobile robot with sensor fusion, ROS-Gz bridge, 2D SLAM, and FSM obstacle avoidance."
+show_downloads: false
